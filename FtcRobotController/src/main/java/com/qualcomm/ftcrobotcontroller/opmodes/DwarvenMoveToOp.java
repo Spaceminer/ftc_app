@@ -33,23 +33,19 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
-
 /**
  * TeleOp Mode
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class DwarvenAutoOp extends DwarvenBotHardware
+public class DwarvenMoveToOp extends DwarvenBotHardware
 {
     int state = 0;
 
     /**
      * Constructor
      */
-    public DwarvenAutoOp()
+    public DwarvenMoveToOp()
     {
 
     }
@@ -63,36 +59,7 @@ public class DwarvenAutoOp extends DwarvenBotHardware
     @Override
     public void loop()
     {
-        //print("Looping", 2);
-        switch(state)
-        {
-            case 0:
-                resetEncoders();
-                state++;
-                break;
-            case 1:
-                enableEncoders();
-                setMotors(1.0, 1.0);
-                //print("Motor's set to go", 0);
-                Log.d(TAG, Integer.toString(getLeftEncoder()));
-
-                //print(Integer.toString(getLeftEncoder()), 0);
-                if(haveEncodersReached(100))
-                {
-                    //print("Encoders reached 100", 0);
-                    Log.d(TAG, "Encoders reached 100");
-                    setMotors(0.0, 0.0);
-                    resetEncoders();
-                    state++;
-                }
-                break;
-            case 2:
-                Log.d(TAG, "Done");
-                //print("Done", 2);
-                break;
-        }
-
-        telemetry.addData("State", state);
+        
     }
 
     @Override

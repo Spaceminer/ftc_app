@@ -102,8 +102,16 @@ public class DwarvenBotHardware extends OpMode
 
     void enableEncoders()
     {
-        leftDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        leftDrive.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+    }
+
+    void moveToPosition(int distance)
+    {
+        rightDrive.setTargetPosition(distance * 10); //10 is ratio of ticks/inch
+        leftDrive.setTargetPosition(distance * 10);
+        resetEncoders();
+        enableEncoders();
     }
 
     void setMotors(double powerL, double powerR)
