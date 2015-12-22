@@ -108,7 +108,7 @@ public class LiDwarvenBotHardware extends LinearOpMode
             setMotors(-1.0, -1.0);
 
 
-        while(Math.abs(getRightEncoder()) < Math.abs(distance * 100))//Ticks per inch
+        while(Math.abs(getRightEncoder()) < Math.abs(distance * 85))//Ticks per inch
         {
             //wait
         }
@@ -120,7 +120,7 @@ public class LiDwarvenBotHardware extends LinearOpMode
         if(degrees > 0)
         {
             setMotors(1.0, -1.0);
-            while(Math.abs(getRightEncoder()) < Math.abs(degrees * 100))
+            while(Math.abs(getRightEncoder()) < Math.abs(degrees * 21))
             {
                 //wait
             }
@@ -130,7 +130,7 @@ public class LiDwarvenBotHardware extends LinearOpMode
         else
         {
             setMotors(-1.0, 1.0);
-            while(Math.abs(getLeftEncoder()) < Math.abs(degrees * 100));
+            while(Math.abs(getLeftEncoder()) < Math.abs(degrees * 21));
             {
                 //wait
             }

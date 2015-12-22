@@ -68,5 +68,6 @@ public class LiDwarvenAutoOp extends LiDwarvenBotHardware
         resetEncoders();
 
         moveToPosition(-12);
+        resetEncoders();
     }
 }
