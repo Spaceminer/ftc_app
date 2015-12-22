@@ -32,34 +32,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
-
 /**
  * TeleOp Mode
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class DwarvenMoveToOp extends DwarvenBotHardware
+public class DwarvenTestOp extends DwarvenBotHardware
 {
-    int state = 0;
-
     /**
      * Constructor
      */
-    public DwarvenMoveToOp()
+    public DwarvenTestOp()
     {
 
     }
 
     @Override
-    public void start()
-    {
+    public void start() {
         super.start();
     }
 
     @Override
     public void loop()
     {
-
+        int state = 0;
+        switch(state)
+        {
+            case 0:
+                enableEncoders();
+                state++;
+                break;
+            case 1:
+                resetEncoders();
+                if(haveEncodersReset())
+                {
+                    state++;
+                }
+                break;
+            case 2:
+                moveToPosition(24);
+                state++;
+                break;
+        }
+        Log.d(TAG, Integer.toString(state));
     }
 
     @Override
@@ -68,3 +83,4 @@ public class DwarvenMoveToOp extends DwarvenBotHardware
 
     }
 }
+

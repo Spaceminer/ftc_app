@@ -31,40 +31,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import android.util.Log;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * TeleOp Mode
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class DwarvenMoveToOp extends DwarvenBotHardware
+public class LiDwarvenAutoOp extends LiDwarvenBotHardware
 {
-    int state = 0;
-
     /**
      * Constructor
      */
-    public DwarvenMoveToOp()
+    public LiDwarvenAutoOp()
     {
 
     }
 
     @Override
-    public void start()
+    public void runOpMode() throws InterruptedException
     {
-        super.start();
-    }
+        defineMotors();
 
-    @Override
-    public void loop()
-    {
+        waitForStart();
 
-    }
+        moveToPosition(48);
+        resetEncoders();
 
-    @Override
-    public void stop()
-    {
+        rotateToPosition(135);
+        resetEncoders();
 
+        moveToPosition(-30);
+        resetEncoders();
+
+        rotateToPosition(90);
+        resetEncoders();
+
+        moveToPosition(-12);
     }
 }

@@ -2,12 +2,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
 
-import com.qualcomm.ftccommon.DbgLog;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 //------------------------------------------------------------------------------
 //
@@ -25,7 +24,7 @@ import com.qualcomm.robotcore.util.Range;
  * @author SSI Robotics
  * @version 2015-08-13-20-04
  */
-public class DwarvenBotHardware extends OpMode
+public class LiDwarvenBotHardware extends LinearOpMode
 {
     DcMotor leftDrive;
     DcMotor rightDrive;
@@ -39,13 +38,16 @@ public class DwarvenBotHardware extends OpMode
 
     public static final String TAG = "DwarvenDebug";
 
-    public DwarvenBotHardware()
+    public LiDwarvenBotHardware()
     {
         //Constructor
     }
 
-    @Override
-    public void init()
+    public void runOpMode() throws InterruptedException {
+
+    }
+
+    public void defineMotors()
     {
         try
         {
@@ -90,36 +92,51 @@ public class DwarvenBotHardware extends OpMode
         catch (Exception p_exception){}
     }
 
-    @Override
-    public void start()
-    {
-
-    }
-
-    @Override
-    public void loop()
-    {
-
-    }
-
-    @Override
-    public void stop()
-    {
-
-    }
+    
 
     void enableEncoders()
     {
-        leftDrive.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        leftDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
 
     void moveToPosition(int distance)
     {
-        rightDrive.setTargetPosition(distance * 1000); //10 is ratio of ticks/inch
-        leftDrive.setTargetPosition(distance * 1000);
-        //resetEncoders();
-        //enableEncoders();
+        if(distance > 0)
+            setMotors(1.0, 1.0);
+        else
+            setMotors(-1.0, -1.0);
+
+
+        while(Math.abs(getRightEncoder()) < Math.abs(distance * 100))//Ticks per inch
+        {
+            //wait
+        }
+        setMotors(0.0, 0.0);
+    }
+
+    void rotateToPosition(int degrees)
+    {
+        if(degrees > 0)
+        {
+            setMotors(1.0, -1.0);
+            while(Math.abs(getRightEncoder()) < Math.abs(degrees * 100))
+            {
+                //wait
+            }
+            setMotors(0.0, 0.0);
+            return;
+        }
+        else
+        {
+            setMotors(-1.0, 1.0);
+            while(Math.abs(getLeftEncoder()) < Math.abs(degrees * 100));
+            {
+                //wait
+            }
+            setMotors(0.0, 0.0);
+            return;
+        }
     }
 
     void setMotors(double powerL, double powerR)
@@ -178,24 +195,31 @@ public class DwarvenBotHardware extends OpMode
 
 
 
-    void resetEncoders()
+    void resetEncoders() throws InterruptedException
     {
         if(rightDrive.getMode() != DcMotorController.RunMode.RESET_ENCODERS)
         {
             rightDrive.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             leftDrive.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         }
+        while(getRightEncoder() != 0)
+        {
+            waitOneFullHardwareCycle();
+        }
+        rightDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        leftDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        return;
     }
 
     int getRightEncoder()
     {
-        Log.d(TAG, Integer.toString(rightDrive.getCurrentPosition()));
+        Log.d(TAG, "Right Encoder " + Integer.toString(rightDrive.getCurrentPosition()));
         return rightDrive.getCurrentPosition();
     }
 
     int getLeftEncoder()
     {
-        Log.d(TAG, Integer.toString(leftDrive.getCurrentPosition()));
+        Log.d(TAG, "Left Encoder " + Integer.toString(leftDrive.getCurrentPosition()));
         return leftDrive.getCurrentPosition();
     }
 

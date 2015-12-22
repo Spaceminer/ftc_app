@@ -31,9 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -75,50 +72,61 @@ public class DwarvenTeleOp extends DwarvenBotHardware
             left = -gamepad1.right_stick_y;
         }
 
+        float armInputAngle;
+        armInputAngle = gamepad2.right_stick_y;
+
+        float armInputReach;
+        armInputReach = -gamepad2.left_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
+        armInputAngle = Range.clip(armInputAngle, -1, 1);
+        armInputReach = Range.clip(armInputReach, -1, 1);
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
         right = (float)scaleInput(right);
         left =  (float)scaleInput(left);
+        armInputAngle = (float)scaleInput(armInputAngle);
+        armInputReach = (float)scaleInput(armInputReach);
 
         // write the values to the motors
         setMotors(right, left);
+        armAngle.setPower(armInputAngle);
+        armReach.setPower(armInputReach);
 
         if(gamepad2.a)
         {
-            rightClimberServo.setPosition(0.5);
+            //rightClimberServo.setPosition(0.5);
         }
         else
         {
-            rightClimberServo.setPosition(1);
+            //rightClimberServo.setPosition(1);
         }
 
         if(gamepad2.b)
         {
-            leftClimberServo.setPosition(0.5);
+            //leftClimberServo.setPosition(0.5);
         }
         else
         {
-            leftClimberServo.setPosition(0);
+            //leftClimberServo.setPosition(0);
         }
 
         if(gamepad2.x)
         {
-            armServo.setDirection(Servo.Direction.FORWARD);
-            armServo.setPosition(1);
+            //armServo.setDirection(Servo.Direction.FORWARD);
+            //armServo.setPosition(1);
         }
         else if(gamepad2.y)
         {
-            armServo.setDirection(Servo.Direction.REVERSE);
-            armServo.setPosition(1);
+            //armServo.setDirection(Servo.Direction.REVERSE);
+            //armServo.setPosition(1);
         }
         else
         {
-            armServo.setPosition(0);
+            //armServo.setPosition(0);
         }
     }
 
