@@ -55,19 +55,19 @@ public class LiDwarvenAutoOp extends LiDwarvenBotHardware
 
         waitForStart();
 
-        moveToPosition(48);
+        moveToPosition(58);
         resetEncoders();
 
-        rotateToPosition(135);
+        rotateToPosition(-45);
         resetEncoders();
 
-        moveToPosition(-30);
+        moveToPosition(30);
         resetEncoders();
 
         rotateToPosition(90);
         resetEncoders();
 
-        moveToPosition(-12);
+        moveToPosition(12);
         resetEncoders();
     }
 }
